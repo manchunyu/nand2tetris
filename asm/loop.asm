@@ -1,0 +1,22 @@
+	@20
+	M=A
+	@total
+	M=0
+(LOOP)
+	@20
+	D=M
+	M=M-1
+	@total
+	M=D+M
+	@20
+	D=M
+	@END
+	D;JEQ
+	@LOOP
+	0;JMP
+(END)
+	@END
+	@total
+	D=M
+	@END
+	0;JMP
