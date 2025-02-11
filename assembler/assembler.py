@@ -10,10 +10,9 @@ def main():
         if line.startswith('@'):
             machine_code.append(assemble_a(line, symbols))
         else:
-            # machine_code.append(assemble_c(line))
-            pass
+            machine_code.append(assemble_c(line))
     
-    print(symbols)
+    print(filtered_lines)
     print(machine_code)
 
 
@@ -76,7 +75,6 @@ def load_variables(lines, symbols):
         if line.startswith('@'):
             possible_var = line.lstrip('@')
             if not (possible_var in symbols or possible_var.isdecimal()):
-                print(line)
                 variable_counter += 1
                 symbols[possible_var] = variable_counter
 
@@ -91,12 +89,10 @@ def assemble_a(instruction, symbols):
         
     return code
 
-
 def assemble_c(instruction):
-    code = "111"
 
     DEST = {
-        "null" : "000",
+        # "null" : "000",
         "M"    : "001",
         "D"    : "010",
         "MD"   : "011",
@@ -138,7 +134,7 @@ def assemble_c(instruction):
     }
 
     JUMP = {
-        "null" : "000",
+        # "null" : "000",
         "JGT"  : "001",
         "JEQ"  : "010",
         "JGE"  : "011",
@@ -147,9 +143,22 @@ def assemble_c(instruction):
         "JLE"  : "110",
         "JMP"  : "111",
     }
-
     
+    dest_instruction = "000"
+    jump_instruction = "000"
 
+    if "=" in instruction:
+        dest = instruction.split("=")[0].strip()
+        instruction = instruction.split("=")[1].strip()   
+        dest_instruction = DEST[dest]
+        
+
+    if ";" in instruction:
+        jump = instruction.split(";")[1].strip()
+        instruction = instruction.split(";")[0].strip()
+        jump_instruction = JUMP[jump]
+
+    return "111" + COMP[instruction] + dest_instruction + jump_instruction
 
 
 #############################################################
