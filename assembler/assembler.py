@@ -1,6 +1,8 @@
+import sys
+
 def main():
-    
-    filtered_lines = read_file()
+    file_name = check_filename()
+    filtered_lines = read_file(file_name)
     symbols = load_predefined_symbols()
     load_labels(filtered_lines, symbols)
     load_variables(filtered_lines, symbols)
@@ -12,19 +14,22 @@ def main():
         else:
             machine_code.append(assemble_c(line))
     
-    print(filtered_lines)
-    print(machine_code)
+    write_file(machine_code)
 
 
 ####################################################
 #                     Helpers                      #
 ####################################################
+def check_filename():
+    if len(sys.argv) < 2:
+        sys.exit("Usage: python assembler.py YOUR_FILE.asm")
 
+    return sys.argv[1]
 
-def read_file():
+def read_file(filename):
     filtered_lines = []
    
-    with open("./rectangle.txt", 'r') as file:
+    with open(filename, 'r') as file:
         # remove tabs and empty spaces
         lines = [line.strip() for line in file]
 
@@ -36,7 +41,7 @@ def read_file():
                     filtered_lines.append(line)
                 else:
                     filtered_lines.append(line.split("//")[0])
-                    
+
     return filtered_lines
 
 def load_predefined_symbols():
@@ -165,6 +170,11 @@ def assemble_c(instruction):
 
     return "111" + COMP[instruction] + dest_instruction + jump_instruction
 
+def write_file(code):
+    output_filename = sys.argv[1].rstrip(".asm") + ".hack"
+    with open(output_filename, "w") as file:
+        for line in code:
+            file.write(line + "\n")
 
 #############################################################
 #                         Call Main                         #     
