@@ -31,7 +31,12 @@ def read_file():
         # remove comments and empty lines
         for line in lines:
             if not (line.startswith("//") or line == ""):
-                filtered_lines.append(line)
+                # remove inline comments
+                if not ("//" in line):
+                    filtered_lines.append(line)
+                else:
+                    filtered_lines.append(line.split("//")[0])
+                    
     return filtered_lines
 
 def load_predefined_symbols():

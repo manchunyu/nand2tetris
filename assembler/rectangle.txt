@@ -2,7 +2,7 @@
 	@R0
 	D=M
 	@height
-	M=D
+	M=D // test
 
 // Screen address
 	@SCREEN
