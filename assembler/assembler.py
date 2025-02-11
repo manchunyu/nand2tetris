@@ -10,7 +10,7 @@ def main():
         if line.startswith('@'):
             machine_code.append(assemble_a(line, symbols))
         else:
-            # machine_code.append(assemble_c(line, symbols))
+            # machine_code.append(assemble_c(line))
             pass
     
     print(symbols)
@@ -137,7 +137,18 @@ def assemble_c(instruction):
         "D|M" : "1010101",
     }
 
+    JUMP = {
+        "null" : "000",
+        "JGT"  : "001",
+        "JEQ"  : "010",
+        "JGE"  : "011",
+        "JLT"  : "100",
+        "JNE"  : "101",
+        "JLE"  : "110",
+        "JMP"  : "111",
+    }
 
+    
 
 
 
@@ -146,5 +157,3 @@ def assemble_c(instruction):
 #############################################################
 if __name__ == "__main__":
     main()
-
-
