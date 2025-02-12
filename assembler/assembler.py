@@ -4,7 +4,7 @@ def main():
     file_name = check_filename()
     filtered_lines = read_file(file_name)
     symbols = load_predefined_symbols()
-    load_labels(filtered_lines, symbols)
+    filtered_lines = load_labels(filtered_lines, symbols)
     load_variables(filtered_lines, symbols)
 
     machine_code = []
@@ -75,9 +75,13 @@ def load_labels(filtered_lines, symbols):
             symbols[label]= i + 1 - label_counter
     
     # remove labels from code
-    for i, line in enumerate(filtered_lines):
-        if line.startswith("("):
-            filtered_lines.pop(i)
+    lines = []
+    for line in filtered_lines:
+        if not line.startswith("("):
+            lines.append(line)
+
+    return lines
+            
 
 def load_variables(lines, symbols):
     variable_counter = 15
