@@ -82,7 +82,6 @@ def load_labels(filtered_lines, symbols):
 
     return lines
             
-
 def load_variables(lines, symbols):
     variable_counter = 15
     for line in lines:
